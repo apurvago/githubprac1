@@ -216,7 +216,7 @@ obj.display()
 
 
 # midterm 
-class Tree:
+class Tree():
     Treecode=0
     height=0
     base=0
@@ -240,7 +240,247 @@ class Tree:
         self.amount_tree=(int(input("Update the amount spent on tree :")))
         return self.Treecode,self.height,self.base,self.amount_tree
     
-class Garden(Tree):
-    MangoTree=Tree(12,36,11,12000)
-    MangoTree.display()
-    MangoTree.update()
+
+# Bank Encapsulation 
+class BankAccount:
+    def __init__(self, account_number, account_holder):
+        self._account_number = account_number
+        self._account_holder = account_holder
+        self._balance = 0.0  # Private attribute
+
+    def deposit(self, amount):
+        if amount > 0:
+            self._balance += amount
+
+    def withdraw(self, amount):
+        if amount > 0 and self._balance >= amount:
+            self._balance -= amount
+
+    def get_balance(self):
+        return self._balance
+
+# Demonstrate the usage of the BankAccount class
+account = BankAccount("123456", "John Doe")
+
+account.deposit(1000.0)
+account.withdraw(500.0)
+
+print(f"Account Holder: {account._account_holder}")  # Accessing a private attribute for demonstration
+print(f"Account Number: {account._account_number}")  # Accessing a private attribute for demonstration
+print(f"Account Balance: ${account.get_balance():.2f}")
+
+
+# Abstraction library management 
+from abc import ABC, abstractmethod  # Import the ABC and abstractmethod decorators for abstract classes
+
+class LibraryItem(ABC):
+    def __init__(self, title, item_id):
+        self.title = title
+        self.item_id = item_id
+
+    @abstractmethod
+    def check_out(self):
+        pass
+
+    @abstractmethod
+    def return_item(self):
+        pass
+
+    @abstractmethod
+    def display_details(self):
+        pass
+
+class Book(LibraryItem):
+    def __init__(self, title, item_id, author, genre):
+        super().__init__(title, item_id)
+        self.author = author
+        self.genre = genre
+        self.checked_out = False  # Initially not checked out
+
+    def check_out(self):
+        if not self.checked_out:
+            self.checked_out = True
+            return f"The book '{self.title}' has been checked out."
+        else:
+            return "This book is already checked out."
+
+    def return_item(self):
+        if self.checked_out:
+            self.checked_out = False
+            return f"The book '{self.title}' has been returned."
+        else:
+            return "This book is not currently checked out."
+
+    def display_details(self):
+        return f"Title: {self.title}\nAuthor: {self.author}\nGenre: {self.genre}"
+
+class DVD(LibraryItem):
+    def __init__(self, title, item_id, director, duration):
+        super().__init__(title, item_id)
+        self.director = director
+        self.duration = duration
+        self.checked_out = False  # Initially not checked out
+
+    def check_out(self):
+        if not self.checked_out:
+            self.checked_out = True
+            return f"The DVD '{self.title}' has been checked out."
+        else:
+            return "This DVD is already checked out."
+
+    def return_item(self):
+        if self.checked_out:
+            self.checked_out = False
+            return f"The DVD '{self.title}' has been returned."
+        else:
+            return "This DVD is not currently checked out."
+
+    def display_details(self):
+        return f"Title: {self.title}\nDirector: {self.director}\nDuration: {self.duration} minutes"
+
+# Create instances of Book and DVD
+book = Book("The Great Gatsby", "B001", "F. Scott Fitzgerald", "Fiction")
+dvd = DVD("Inception", "D001", "Christopher Nolan", 148)
+
+# Demonstrate the use of their methods
+print(book.check_out())
+print(dvd.check_out())
+
+print(book.return_item())
+print(dvd.return_item())
+
+# Display the details of items
+print("\nBook Details:")
+print(book.display_details())
+
+print("\nDVD Details:")
+print(dvd.display_details())
+
+
+# overloading -- calculator
+class Calculator:
+    def add(self, a, b):
+        return a + b
+
+    def add(self, a, b, c):
+        return a + b + c
+
+    def subtract(self, a, b):
+        return a - b
+
+    def multiply(self, a, b):
+        return a * b
+
+# Usage
+calc = Calculator()
+print(calc.add(2, 3))       # Overloaded add method with 2 arguments
+print(calc.add(2, 3, 4))    # Overloaded add method with 3 arguments
+print(calc.subtract(5, 2))
+print(calc.multiply(4, 6))
+
+
+
+# overloading -- shape area
+class Shape:
+    def area(self, *args):
+        if len(args) == 1:
+            return 3.14 * args[0] * args[0]  # Calculate the area of a circle
+        elif len(args) == 2:
+            return args[0] * args[1]  # Calculate the area of a rectangle
+
+# Usage
+shape = Shape()
+circle_area = shape.area(5)
+rectangle_area = shape.area(4, 6)
+print("Circle Area:", circle_area)
+print("Rectangle Area:", rectangle_area)
+
+# Overriding -- vehicle 
+class Vehicle:
+    def start(self):
+        return "Vehicle started"
+
+class Car(Vehicle):
+    def start(self):
+        return super().start() + " (Car engine started)"
+
+class Bike(Vehicle):
+    def start(self):
+        return super().start() + " (Bike engine started)"
+
+# Usage
+car = Car()
+bike = Bike()
+print(car.start())
+print(bike.start())
+
+
+
+#Abstarction - -  employee
+
+class Employee:
+    def __init__(self, name, emp_id, salary):
+        self.__name = name  # Private attribute
+        self.__emp_id = emp_id  # Private attribute
+        self.__salary = salary  # Private attribute
+
+    def get_name(self):
+        return self.__name
+
+    def set_name(self, name):
+        self.__name = name
+
+    def get_emp_id(self):
+        return self.__emp_id
+
+    def set_emp_id(self, emp_id):
+        self.__emp_id = emp_id
+
+    def get_salary(self):
+        return self.__salary
+
+    def set_salary(self, salary):
+        self.__salary = salary
+
+# Usage
+employee = Employee("John Doe", "E12345", 50000)
+print("Name:", employee.get_name())
+print("Employee ID:", employee.get_emp_id())
+print("Salary:", employee.get_salary())
+
+employee.set_salary(55000)
+print("Updated Salary:", employee.get_salary())
+
+
+
+
+#Abstarction - -  bank account 
+
+
+from abc import ABC, abstractmethod
+
+class Bank(ABC):
+    @abstractmethod
+    def calculate_interest(self):
+        pass
+
+class SavingsAccount(Bank):
+    def __init__(self, balance):
+        self.balance = balance
+
+    def calculate_interest(self):
+        return 0.04 * self.balance  # 4% interest for savings account
+
+class FixedDeposit(Bank):
+    def __init__(self, principal, years):
+        self.principal = principal
+        self.years = years
+
+    def calculate_interest(self):
+        return 0.08 * self.principal * self.years  # 8% interest for fixed deposit
+
+# Usage
+savings_account = SavingsAccount(10000)
+fixed_deposit = FixedDeposit(50000, 3)
+print("Savings Account Interest:", savings_account.calculate_interest())
+print("Fixed Deposit Interest:", fixed_deposit.calculate_interest())
